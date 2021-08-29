@@ -8,8 +8,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { Post } from 'posts/entities/post.entity';
-import { User, UserRole } from 'users/entities/user.entity';
+import { User } from 'users/entities/user.entity';
 import { GqlAuthGuard } from './auth.guard';
 
 @Injectable()
@@ -27,29 +26,6 @@ export class RolesGuard implements CanActivate {
     return true;
   }
 }
-
-@Injectable()
-export class IsCreatorGuard implements CanActivate {
-  constructor(private disallowAdmin: boolean = false) {
-    disallowAdmin = this.disallowAdmin;
-  }
-  async canActivate(context: ExecutionContext) {
-    const ctx = GqlExecutionContext.create(context);
-    const email = ctx.getContext().req.user.email;
-    const user = await User.findOne({ email });
-
-    const [req, res] = context.getArgs();
-    const post = await Post.findOneOrFail(res.id, { relations: ['user'] });
-    if (post.user.id === user.id) return true;
-
-    if (!this.disallowAdmin && user.role === UserRole.Admin) return true;
-    return false;
-  }
-}
-
-export const IsCreator = (options: { disallowAdmin?: boolean } = {}) => {
-  return UseGuards(GqlAuthGuard, new IsCreatorGuard(options.disallowAdmin));
-};
 
 export const Authorize = (roles?: string | string[]) => {
   if (!roles) return UseGuards(GqlAuthGuard);

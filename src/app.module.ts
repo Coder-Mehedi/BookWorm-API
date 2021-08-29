@@ -4,10 +4,9 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
 import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { CommentsModule } from './comments/comments.module';
-import { LikesModule } from './likes/likes.module';
 import { AuthModule } from './auth/auth.module';
+import { BooksModule } from './books/books.module';
+import { RatingsModule } from './ratings/ratings.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -23,10 +22,9 @@ import { AuthModule } from './auth/auth.module';
       sortSchema: true,
     }),
     UsersModule,
-    PostsModule,
-    CommentsModule,
-    LikesModule,
     AuthModule,
+    BooksModule,
+    RatingsModule,
   ],
 })
 export class AppModule {}

@@ -6,7 +6,7 @@
   "password": "password",
   "database": "nest-typeorm-graphql-prod",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": false,
+  "synchronize": true,
   "migrations": ["dist/migration/*{.ts,.js}"],
   "cli": {
     "entitiesDir": "src/entities",

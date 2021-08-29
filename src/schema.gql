@@ -6,20 +6,22 @@ type AccessToken {
   access_token: String!
 }
 
-type Comment {
-  author: User!
-  content: String!
+type Book {
+  author: String!
+  avgRating: Float!
+  category: String!
   id: String!
-  post: Post!
+  name: String!
+  publishedYear: String!
+  rating: [Rating!]
+  user: User!
 }
 
-input CreateCommentInput {
-  content: String!
-  postId: String!
-}
-
-input CreatePostInput {
-  content: String!
+input CreateBookInput {
+  author: String!
+  category: String!
+  name: String!
+  publishedYear: String!
 }
 
 input CreateUserInput {
@@ -29,70 +31,39 @@ input CreateUserInput {
   role: UserRole
 }
 
-type Like {
-  id: String
-  post: Post
-  user: User
-}
-
 input LoginInput {
   email: String!
   password: String!
 }
 
 type Mutation {
-  createComment(createCommentInput: CreateCommentInput!): Post!
-  createPost(createPostInput: CreatePostInput!): Post!
-  likeAPost(postId: String!): Post!
+  createBook(createBookInput: CreateBookInput!): Book!
   login(loginInput: LoginInput!): AccessToken!
-  publishPost(id: String!): String!
-  registerUser(createUserInput: CreateUserInput!): User!
-  removeComment(id: String!): Post!
-  removeLike(id: String!): Post!
-  removePost(id: String!): String!
-  unpublishPost(id: String!): String!
-  updateComment(updateCommentInput: UpdateCommentInput!): Post!
-  updatePost(id: String!, updatePostInput: UpdatePostInput!): Post!
-}
-
-type Post {
-  comments: [Comment!]
-  content: String!
-  id: String!
-  isPublished: Boolean!
-  likes: [Like!]
-  user: User!
+  rateBook(id: String!, rating: Float!): Book!
+  register(createUserInput: CreateUserInput!): User!
 }
 
 type Query {
-  comments(postId: String!): [Comment!]!
+  books: [Book!]!
   currentUser: User!
-  likes: [Like!]!
-  post(id: String!): Post!
-  posts: [Post!]!
   user(id: String!): User!
   users: [User!]!
 }
 
-input UpdateCommentInput {
-  content: String!
+type Rating {
+  book: Book
   id: String!
-  postId: String
-}
-
-input UpdatePostInput {
-  content: String!
+  point: Float!
+  user: User
 }
 
 type User {
-  comments: [Comment!]
   email: String!
   id: String!
   isActive: Boolean!
-  likes: [Like!]
   name: String!
   password: String!
-  posts: [Post!]
+  posts: [Book!]
   role: UserRole
 }
 

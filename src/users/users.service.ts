@@ -25,7 +25,7 @@ export class UsersService {
 
   async findAll() {
     try {
-      return await User.find({ relations: ['posts'] });
+      return await User.find({ relations: [] });
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +33,7 @@ export class UsersService {
 
   async findOne(id: string) {
     try {
-      return await User.findOne({ id }, { relations: ['posts'] });
+      return await User.findOne({ id }, { relations: [] });
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +41,7 @@ export class UsersService {
 
   async findOneByEmail(email: string) {
     try {
-      return await User.findOne({ email }, { relations: ['posts'] });
+      return await User.findOne({ email }, { relations: [] });
     } catch (error) {
       console.log(error);
     }
