@@ -4,9 +4,9 @@
   "port": 3306,
   "username": "root",
   "password": "password",
-  "database": "nest-typeorm-graphql-prod",
+  "database": "book-worm",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": true,
+  "synchronize": false,
   "migrations": ["dist/migration/*{.ts,.js}"],
   "cli": {
     "entitiesDir": "src/entities",
