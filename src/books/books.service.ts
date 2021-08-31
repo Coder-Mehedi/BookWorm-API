@@ -29,6 +29,7 @@ export class BooksService {
 
   async findAll(limit = 10, next: string, prev: string) {
     try {
+      const bookCount = await Book.count();
       const queryBuilder = getConnection()
         .getRepository(Book)
         .createQueryBuilder('book')
@@ -50,7 +51,11 @@ export class BooksService {
       const { data, cursor } = await paginator.paginate(queryBuilder);
 
       return {
-        info: { next: cursor.afterCursor, prev: cursor.beforeCursor },
+        info: {
+          next: cursor.afterCursor,
+          prev: cursor.beforeCursor,
+          total: bookCount,
+        },
         results: data,
       };
     } catch (error) {

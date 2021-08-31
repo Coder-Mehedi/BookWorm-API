@@ -39,6 +39,7 @@ input CreateUserInput {
 type Info {
   next: String
   prev: String
+  total: String
 }
 
 input LoginInput {

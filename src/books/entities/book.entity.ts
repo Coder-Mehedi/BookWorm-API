@@ -53,6 +53,9 @@ export class Info {
 
   @Field({ nullable: true })
   next: string;
+
+  @Field({ nullable: true })
+  total: string;
 }
 
 @ObjectType()
