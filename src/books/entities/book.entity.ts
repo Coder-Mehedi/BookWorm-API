@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Rating } from 'ratings/entities/rating.entity';
 import {
   BaseEntity,
@@ -54,8 +54,8 @@ export class Info {
   @Field({ nullable: true })
   next: string;
 
-  @Field({ nullable: true })
-  total: string;
+  @Field(() => Int, { nullable: true })
+  total: number;
 }
 
 @ObjectType()
