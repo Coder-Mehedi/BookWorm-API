@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { BooksService } from './books.service';
-import { Book } from './entities/book.entity';
+import { Book, BooksPayload } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { Authorize } from 'auth/user.guard';
 import { User } from 'users/entities/user.entity';
@@ -19,8 +19,12 @@ export class BooksResolver {
     return this.booksService.create(reqUser, createBookInput);
   }
 
-  @Query(() => [Book], { name: 'books' })
-  findAll() {
-    return this.booksService.findAll();
+  @Query(() => BooksPayload, { name: 'books' })
+  findAll(
+    @Args('limit', { nullable: true }) limit: number,
+    @Args('next', { nullable: true }) next: string | null,
+    @Args('prev', { nullable: true }) prev: string | null,
+  ) {
+    return this.booksService.findAll(limit, next, prev);
   }
 }

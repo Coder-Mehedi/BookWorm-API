@@ -17,6 +17,11 @@ type Book {
   user: User!
 }
 
+type BooksPayload {
+  info: Info!
+  results: [Book!]!
+}
+
 input CreateBookInput {
   author: String!
   category: String!
@@ -29,6 +34,11 @@ input CreateUserInput {
   name: String!
   password: String!
   role: UserRole
+}
+
+type Info {
+  next: String
+  prev: String
 }
 
 input LoginInput {
@@ -44,7 +54,7 @@ type Mutation {
 }
 
 type Query {
-  books: [Book!]!
+  books(limit: Float, next: String, prev: String): BooksPayload!
   currentUser: User!
   user(id: String!): User!
   users: [User!]!

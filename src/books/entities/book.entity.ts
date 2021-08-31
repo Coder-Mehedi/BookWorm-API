@@ -45,3 +45,21 @@ export class Book extends BaseEntity {
   @ManyToOne(() => User)
   user: User;
 }
+
+@ObjectType()
+export class Info {
+  @Field({ nullable: true })
+  prev: string;
+
+  @Field({ nullable: true })
+  next: string;
+}
+
+@ObjectType()
+export class BooksPayload {
+  @Field()
+  info: Info;
+
+  @Field(() => [Book])
+  results: Book[];
+}
