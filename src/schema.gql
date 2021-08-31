@@ -68,12 +68,12 @@ type Rating {
 }
 
 type User {
+  books: [Book!]
   email: String!
   id: String!
   isActive: Boolean!
   name: String!
   password: String!
-  posts: [Book!]
   role: UserRole
 }
 

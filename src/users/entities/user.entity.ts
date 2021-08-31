@@ -43,6 +43,6 @@ export class User extends BaseEntity {
   isActive: boolean;
 
   @Field(() => [Book], { nullable: true })
-  @OneToMany(() => Book, (post) => post.user)
-  posts: Book[];
+  @OneToMany(() => Book, (book) => book.user)
+  books: Book[];
 }
