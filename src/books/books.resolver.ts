@@ -21,10 +21,10 @@ export class BooksResolver {
 
   @Query(() => BooksPayload, { name: 'books' })
   findAll(
-    @Args('limit', { nullable: true }) limit: number,
+    @Args('first', { nullable: true }) first: number,
     @Args('next', { nullable: true }) next: string | null,
     @Args('prev', { nullable: true }) prev: string | null,
   ) {
-    return this.booksService.findAll(limit, next, prev);
+    return this.booksService.findAll(first, next, prev);
   }
 }

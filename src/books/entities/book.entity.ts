@@ -47,22 +47,37 @@ export class Book extends BaseEntity {
 }
 
 @ObjectType()
-export class Info {
+export class PageInfo {
+  @Field({ nullable: true })
+  hasPreviousPage: string;
+
+  @Field({ nullable: true })
+  hasNextPage: string;
+
+  @Field(() => Int, { nullable: true })
+  total: number;
+
   @Field({ nullable: true })
   prev: string;
 
   @Field({ nullable: true })
   next: string;
+}
 
-  @Field(() => Int, { nullable: true })
-  total: number;
+@ObjectType()
+export class Edge {
+  @Field({ nullable: true })
+  cursor: string;
+
+  @Field(() => Book, { nullable: true })
+  node: Book;
 }
 
 @ObjectType()
 export class BooksPayload {
   @Field()
-  info: Info;
+  pageInfo: PageInfo;
 
-  @Field(() => [Book])
-  results: Book[];
+  @Field(() => [Edge])
+  edges: Edge[];
 }

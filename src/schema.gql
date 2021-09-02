@@ -18,8 +18,8 @@ type Book {
 }
 
 type BooksPayload {
-  info: Info!
-  results: [Book!]!
+  edges: [Edge!]!
+  pageInfo: PageInfo!
 }
 
 input CreateBookInput {
@@ -36,10 +36,9 @@ input CreateUserInput {
   role: UserRole
 }
 
-type Info {
-  next: String
-  prev: String
-  total: Int
+type Edge {
+  cursor: String
+  node: Book
 }
 
 input LoginInput {
@@ -54,8 +53,16 @@ type Mutation {
   register(createUserInput: CreateUserInput!): User!
 }
 
+type PageInfo {
+  hasNextPage: String
+  hasPreviousPage: String
+  next: String
+  prev: String
+  total: Int
+}
+
 type Query {
-  books(limit: Float, next: String, prev: String): BooksPayload!
+  books(first: Float, next: String, prev: String): BooksPayload!
   currentUser: User!
   user(id: String!): User!
   users: [User!]!

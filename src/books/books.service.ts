@@ -51,12 +51,17 @@ export class BooksService {
       const { data, cursor } = await paginator.paginate(queryBuilder);
 
       return {
-        info: {
+        pageInfo: {
+          hasNextPage: !!cursor.afterCursor,
+          hasPreviousPage: !!cursor.beforeCursor,
+          total: bookCount,
           next: cursor.afterCursor,
           prev: cursor.beforeCursor,
-          total: bookCount,
         },
-        results: data,
+        edges: data.map((book) => ({
+          cursor: cursor.afterCursor,
+          node: book,
+        })),
       };
     } catch (error) {
       return error;
