@@ -71,7 +71,7 @@ type Query {
 type Rating {
   book: Book
   id: String!
-  point: Float!
+  point: Int!
   user: User
 }
 

@@ -23,12 +23,6 @@ export class RatingsService {
       const rate = Rating.create({ user, book, point: rating });
       await rate.save();
 
-      const ratings = await Rating.find({ where: { book }, select: ['point'] });
-      let total = 0;
-      ratings.forEach((rating) => (total += rating.point));
-      book.avgRating = total / ratings.length;
-      await book.save();
-
       return await Book.findOneOrFail(id, {
         relations: ['user', 'rating'],
       });

@@ -16,8 +16,8 @@ export class Rating extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field()
-  @Column()
+  @Field(() => Int)
+  @Column({ default: 0.0 })
   point: number;
 
   @Field(() => User, { nullable: true })

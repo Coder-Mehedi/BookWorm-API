@@ -4,6 +4,7 @@ import { CreateBookInput } from './dto/create-book.input';
 import { Book } from './entities/book.entity';
 import { buildPaginator } from 'typeorm-cursor-pagination';
 import { getConnection } from 'typeorm';
+import { Rating } from 'ratings/entities/rating.entity';
 interface PagingResult<Entity> {
   data: Entity[];
   cursor: Cursor;
@@ -30,12 +31,16 @@ export class BooksService {
   async findAll(limit = 10, next: string, prev: string) {
     try {
       const bookCount = await Book.count();
-      const queryBuilder = getConnection()
-        .getRepository(Book)
-        .createQueryBuilder('book')
+      const queryBuilder = Book.createQueryBuilder('book')
         .leftJoinAndSelect('book.user', 'user')
         .leftJoinAndSelect('book.rating', 'rating')
         .leftJoinAndSelect('rating.user', 'rating.user');
+
+      const avgRatingPoint = await Rating.createQueryBuilder('rating')
+        .select('rating.bookId', 'bookId')
+        .addSelect('AVG(rating.point)', 'point')
+        .groupBy('rating.bookId')
+        .getRawMany();
 
       const paginator = buildPaginator({
         entity: Book,
@@ -58,10 +63,14 @@ export class BooksService {
           next: cursor.afterCursor,
           prev: cursor.beforeCursor,
         },
-        edges: data.map((book) => ({
-          cursor: cursor.afterCursor,
-          node: book,
-        })),
+        edges: data.map((book) => {
+          const found = avgRatingPoint.find((e) => e.bookId === book.id);
+          if (found) book.avgRating = found.point;
+          return {
+            cursor: cursor.afterCursor,
+            node: book,
+          };
+        }),
       };
     } catch (error) {
       return error;

@@ -33,8 +33,8 @@ export class Book extends BaseEntity {
   @Column()
   category: string;
 
-  @Field()
-  @Column('decimal', { precision: 5, scale: 2, default: 0.0 })
+  @Field({ defaultValue: 0.0 })
+  // @Column('decimal', { precision: 5, scale: 2, default: 0.0 })
   avgRating: number;
 
   @Field(() => [Rating], { nullable: true })
